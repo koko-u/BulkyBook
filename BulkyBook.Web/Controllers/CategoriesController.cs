@@ -1,4 +1,5 @@
-﻿using BulkyBook.BusinessCore.Services;
+﻿using AutoMapper;
+using BulkyBook.BusinessCore.Services;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,12 @@ namespace BulkyBook.Web.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoriesService _categoriesService;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(ICategoriesService categoriesService, IMapper mapper)
         {
             _categoriesService = categoriesService;
+            _mapper = mapper;
         }
 
         // GET /Categories/Index
@@ -37,6 +40,39 @@ namespace BulkyBook.Web.Controllers
             }
 
             var created = await _categoriesService.CreateNewCategory(createCategory);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET /Categories/Edit/{id}
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var category = await _categoriesService.GetSingleCategoryByIdAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(_mapper.Map<EditCategoryViewModel>(category));
+        }
+
+        // POST /Categories/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, EditCategoryViewModel editCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editCategory);
+            }
+
+            var response = await _categoriesService.UpdateCategory(editCategory);
+            if (response.IsFailure)
+            {
+                ModelState.AddModelError(nameof(EditCategoryViewModel)
+                    , response.ErrorMessages.First());
+                return View(editCategory);
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }
