@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook.Persistence.Models;
 
+[Index(nameof(Name), IsUnique = true)]
 public class Category
 {
     [Key]
