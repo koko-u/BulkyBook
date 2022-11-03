@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BulkyBook.Persistence\BulkyBook.Persistence.csproj" />
-    <ProjectReference Include="..\BulkyBook.Presentation\BulkyBook.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,13 +5,17 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Web", "BulkyBook.Web\BulkyBook.Web.csproj", "{97EB87A5-D94C-449B-AC6A-E63702CCDD8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Persistence", "BulkyBook.Persistence\BulkyBook.Persistence.csproj", "{FAE81D79-55BE-413B-B3FD-6E0A88B2C5CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Persistence", "BulkyBook.Persistence\BulkyBook.Persistence.csproj", "{FAE81D79-55BE-413B-B3FD-6E0A88B2C5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Presentation", "BulkyBook.Presentation\BulkyBook.Presentation.csproj", "{92968D82-16B0-4A59-9108-1FB5D867D226}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Presentation", "BulkyBook.Presentation\BulkyBook.Presentation.csproj", "{92968D82-16B0-4A59-9108-1FB5D867D226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Configuration", "BulkyBook.Configuration\BulkyBook.Configuration.csproj", "{EB21587C-F7F8-4BCA-9489-C523D2E9CBE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Configuration", "BulkyBook.Configuration\BulkyBook.Configuration.csproj", "{EB21587C-F7F8-4BCA-9489-C523D2E9CBE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.BusinessCore", "BulkyBook.BusinessCore\BulkyBook.BusinessCore.csproj", "{E0BEA066-FA25-4F43-AFC2-2F409DF4CD5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.BusinessCore", "BulkyBook.BusinessCore\BulkyBook.BusinessCore.csproj", "{E0BEA066-FA25-4F43-AFC2-2F409DF4CD5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Middleware", "BulkyBook.Middleware\BulkyBook.Middleware.csproj", "{594B8996-9968-45EE-8BA0-EBF58249EAE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyBook.Validations", "BulkyBook.Validations\BulkyBook.Validations.csproj", "{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{E0BEA066-FA25-4F43-AFC2-2F409DF4CD5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0BEA066-FA25-4F43-AFC2-2F409DF4CD5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0BEA066-FA25-4F43-AFC2-2F409DF4CD5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594B8996-9968-45EE-8BA0-EBF58249EAE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594B8996-9968-45EE-8BA0-EBF58249EAE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594B8996-9968-45EE-8BA0-EBF58249EAE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594B8996-9968-45EE-8BA0-EBF58249EAE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

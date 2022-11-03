@@ -10,7 +10,7 @@ public class DesignTimeBulkyBookDbContextBuilder : IDesignTimeDbContextFactory<B
     public BulkyBookDbContext CreateDbContext(string[] args)
     {
         var builder = new DbContextOptionsBuilder<BulkyBookDbContext>()
-            .UseSqlServer(ConnectionStrings.Default);
+            .UseSqlServer(ConnectionStrings.Default, options => options.UseHierarchyId());
 
         return new BulkyBookDbContext(builder.Options);
     }

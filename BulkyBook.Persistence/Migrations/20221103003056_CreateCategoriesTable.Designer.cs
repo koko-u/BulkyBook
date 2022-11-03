@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBook.Persistence.Migrations
 {
     [DbContext(typeof(BulkyBookDbContext))]
-    [Migration("20221101231722_CreateCategoriesTable")]
+    [Migration("20221103003056_CreateCategoriesTable")]
     partial class CreateCategoriesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,9 @@ namespace BulkyBook.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("DisplayOrder")
-                        .HasColumnType("bigint");
+                    b.Property<HierarchyId>("DisplayOrder")
+                        .IsRequired()
+                        .HasColumnType("hierarchyid");
 
                     b.Property<string>("Name")
                         .IsRequired()

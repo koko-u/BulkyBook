@@ -31,8 +31,9 @@ namespace BulkyBook.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("DisplayOrder")
-                        .HasColumnType("bigint");
+                    b.Property<HierarchyId>("DisplayOrder")
+                        .IsRequired()
+                        .HasColumnType("hierarchyid");
 
                     b.Property<string>("Name")
                         .IsRequired()
