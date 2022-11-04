@@ -65,106 +65,14 @@ public class CategoriesService : ICategoriesService
         // set display order
         if (editCategory.UpOrDownCount > 0)
         {
-            // [Old Order]
-            //  NameA    /1/
-            //  NameB    /2/   <- +2 Up
-            //  NameC    /3/
-            //  NameD    /4/   <- Target Category
-            //
-            // [Result Order]
-            //  NameA    /1/
-            //  NameD    /1.1/
-            //  NameB    /2/
-            //  NameC    /3/
-            //
-            // so, you must get NameA and NameB's Display Orders
-            //
-            // reversed order indexes
-            //  NameA    /1/                2
-            //  NameB    /2/   <- +2 Up     1
-            //  NameC    /3/                0
-            //  NameD    /4/   <- target
-            //
-            var prevCategories =
-                await _dbContext.Categories
-                    .Where(cat => cat.DisplayOrder < targetCategory.DisplayOrder)
-                    .OrderByDescending(cat => cat.DisplayOrder)
-                    .ToArrayAsync();
-            var range = (editCategory.UpOrDownCount - 1)..(editCategory.UpOrDownCount + 1);
-            var prevCategory = prevCategories[range];
-            if (prevCategory.Length == 0)
-            {
-                // target category is the top order
-                // do nothing
-            }
-
-            if (prevCategory.Length == 1)
-            {
-                // target category's display order to make top.
-                targetCategory.DisplayOrder = HierarchyId.GetRoot()
-                    .GetDescendant(null, prevCategory[0].DisplayOrder);
-            }
-
-            if (prevCategory.Length >= 2)
-            {
-                // target category's order to make between prevCategory[1] and prevCategory[0]
-                // prevCategory is reversed.
-                targetCategory.DisplayOrder = HierarchyId.GetRoot()
-                    .GetDescendant(prevCategory[1].DisplayOrder, prevCategory[0].DisplayOrder);
-            }
+            targetCategory.DisplayOrder =
+                await UpByCount(targetCategory, editCategory.UpOrDownCount);
         }
 
         if (editCategory.UpOrDownCount < 0)
         {
-            // [Old Order]
-            //  NameA    /1/   <- target category
-            //  NameB    /2/                          0
-            //  NameC    /3/   <- (-2) down           1
-            //  NameD    /4/                          2
-            //
-            // [Result Order]
-            //  NameB    /2/
-            //  NameC    /3/
-            //  NameA    /3.1/
-            //  NameD    /4/
-            //
-            // so, you must get NameC and NameD's Display Orders
-
-            //var nextCategory =
-            //    await _dbContext.Categories
-            //        .Where(cat => cat.DisplayOrder > targetCategory.DisplayOrder)
-            //        .OrderBy(cat => cat.DisplayOrder)
-            //        .Skip(-editCategory.UpOrDownCount - 1)
-            //        .Take(2)
-            //        .ToListAsync();
-            var nextCategories =
-                await _dbContext.Categories
-                    .Where(cat => cat.DisplayOrder > targetCategory.DisplayOrder)
-                    .OrderBy(cat => cat.DisplayOrder)
-                    .ToArrayAsync();
-            var range = (-editCategory.UpOrDownCount - 1)..(-editCategory.UpOrDownCount + 1);
-            var nextCategory =
-                nextCategories[range];
-
-            if (nextCategory.Length == 0)
-            {
-                // target category is the bottom
-                // do nothing
-            }
-
-            if (nextCategory.Length == 1)
-            {
-                // target category's order to make last
-                targetCategory.DisplayOrder = HierarchyId.GetRoot()
-                    .GetDescendant(nextCategory[0].DisplayOrder, null);
-            }
-
-            if (nextCategory.Length >= 2)
-            {
-                // target category's order to make between nextCategory[0] and nextCategory[1]
-                targetCategory.DisplayOrder = HierarchyId.GetRoot()
-                    .GetDescendant(nextCategory[0].DisplayOrder, nextCategory[1].DisplayOrder);
-            }
+            targetCategory.DisplayOrder =
+                await DownByCount(targetCategory, -editCategory.UpOrDownCount);
         }
 
         await _dbContext.SaveChangesAsync();
@@ -182,5 +90,109 @@ public class CategoriesService : ICategoriesService
         }
 
         return HierarchyId.GetRoot().GetDescendant(lastCategory.DisplayOrder, null);
+    }
+
+
+    /// <summary>
+    /// 指定された Category の並び順を upCount 個上に移動した時の DisplayOrder を取得します。
+    /// </summary>
+    /// <param name="target">移動の対象となる Category </param>
+    /// <param name="upCount">いくつ上に移動するか(1以上の数値を指定すること)</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    private async Task<HierarchyId> UpByCount(Category target, int upCount)
+    {
+        if (upCount <= 0) throw new ArgumentOutOfRangeException(nameof(upCount));
+
+        // [Old Order]
+        //  NameA    /1/
+        //  NameB    /2/   <- +2 Up
+        //  NameC    /3/
+        //  NameD    /4/   <- Target Category
+        //
+        // [Result Order]
+        //  NameA    /1/
+        //  NameD    /1.1/
+        //  NameB    /2/
+        //  NameC    /3/
+        //
+        // so, you must get NameA and NameB's Display Orders
+        //
+        // reversed order indexes
+        //  NameA    /1/                2
+        //  NameB    /2/   <- +2 Up     1
+        //  NameC    /3/                0
+        //  NameD    /4/   <- target
+        //
+        // 移動対象となる category よりも『上に』ある category の一覧を並び順の降順に取得します
+        var prevCategories =
+            await _dbContext.Categories
+                .Where(cat => cat.DisplayOrder < target.DisplayOrder)
+                .OrderByDescending(cat => cat.DisplayOrder)
+                .ToListAsync();
+
+        if (upCount < prevCategories.Count)
+        {
+            var overCategory = prevCategories[upCount];
+            var underCategory = prevCategories[upCount - 1];
+            return HierarchyId.GetRoot()
+                .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
+        }
+        else
+        {
+            var topCategory = prevCategories.LastOrDefault();
+            return HierarchyId.GetRoot().GetDescendant(null, topCategory?.DisplayOrder);
+        }
+    }
+
+    /// <summary>
+    /// 指定された Category の並び順を downCount 個下に移動した時の DisplayOrder を取得します。
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="downCount"></param>
+    /// <returns></returns>
+    private async Task<HierarchyId> DownByCount(Category target, int downCount)
+    {
+        if (downCount <= 0) throw new ArgumentOutOfRangeException(nameof(downCount));
+
+        // [Old Order]
+        //  NameA    /1/   <- target category
+        //  NameB    /2/                          0
+        //  NameC    /3/   <- 2 down              1
+        //  NameD    /4/                          2
+        //
+        // [Result Order]
+        //  NameB    /2/
+        //  NameC    /3/
+        //  NameA    /3.1/
+        //  NameD    /4/
+        //
+        // so, you must get NameC and NameD's Display Orders
+
+        //var nextCategory =
+        //    await _dbContext.Categories
+        //        .Where(cat => cat.DisplayOrder > targetCategory.DisplayOrder)
+        //        .OrderBy(cat => cat.DisplayOrder)
+        //        .Skip(-editCategory.UpOrDownCount - 1)
+        //        .Take(2)
+        //        .ToListAsync();
+        var nextCategories =
+            await _dbContext.Categories
+                .Where(cat => cat.DisplayOrder > target.DisplayOrder)
+                .OrderBy(cat => cat.DisplayOrder)
+                .ToListAsync();
+
+        if (downCount < nextCategories.Count)
+        {
+            var overCategory = nextCategories[downCount - 1];
+            var underCategory = nextCategories[downCount];
+            return HierarchyId.GetRoot()
+                .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
+        }
+        else
+        {
+            var bottomCategory = nextCategories.LastOrDefault();
+            return HierarchyId.GetRoot().GetDescendant(bottomCategory?.DisplayOrder, null);
+        }
     }
 }

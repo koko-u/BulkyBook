@@ -29,7 +29,8 @@ public class EditCategoryViewModel : IValidatableObject
         if (dbContext.Categories.Any(cat =>
                 cat.Id != this.Id && string.Equals(cat.Name, this.Name)))
         {
-            yield return new ValidationResult("Category name should be unique.");
+            yield return new ValidationResult("Category name should be unique."
+                , new[] { nameof(Name) });
         }
     }
 }
