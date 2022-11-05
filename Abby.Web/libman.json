@@ -53,6 +53,16 @@
         "dist/jquery.validate.unobtrusive.js",
         "dist/jquery.validate.unobtrusive.min.js"
       ]
+    },
+    {
+      "library": "bootswatch@5.2.2",
+      "destination": "wwwroot/lib/bootswatch/",
+      "files": [
+        "LICENSE",
+        "README.md",
+        "dist/sandstone/bootstrap.css",
+        "dist/sandstone/bootstrap.min.css"
+      ]
     }
   ]
 }
