@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Middleware", "Bul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBook.Validations", "BulkyBook.Validations\BulkyBook.Validations.csproj", "{93FDF2D9-9208-4B1F-A3DF-B74F1873AC44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abby.Web", "Abby.Web\Abby.Web.csproj", "{3F098B5D-8535-4380-ACB0-573ACBA1A01D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abby.Web", "Abby.Web\Abby.Web.csproj", "{3F098B5D-8535-4380-ACB0-573ACBA1A01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
