@@ -18,7 +18,7 @@
         Category List
     </h1>
     <div>
-        <a class="btn btn-primary">
+        <a class="btn btn-primary" asp-page="Create">
             <i class="bi bi-plus-circle"></i>
             <span class="ms-1">Add New Category</span>
         </a>
@@ -43,12 +43,12 @@
             <td>@category.DisplayOrder</td>
             <td class="d-flex flex-row justify-content-center gap-2">
                 <div class='d-grid flex-fill'>
-                    <a class="btn btn-info btn-sm">
+                    <a class="btn btn-info btn-sm" asp-page="Edit" asp-route-id="@category.Id">
                         <i class="bi bi-pencil-square"></i> <span class="ms-1"> Edit</span>
                     </a>
                 </div>
                 <div class="d-grid flex-fill">
-                    <a class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-sm" asp-page="Delete" asp-route-id="@category.Id">
                         <i class="bi bi-trash"></i><span class="ms-1">Delete</span>
                     </a>
                 </div>
