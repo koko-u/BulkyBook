@@ -31,4 +31,15 @@ public class EditModel : PageModel
         this.EditCategory = _mapper.Map<EditCategoryViewModel>(category);
         return Page();
     }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var updated = await _categoriesService.UpdateCategoryAsync(this.EditCategory);
+        return RedirectToPage("Index");
+    }
 }
