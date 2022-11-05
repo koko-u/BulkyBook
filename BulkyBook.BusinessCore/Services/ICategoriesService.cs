@@ -8,9 +8,11 @@ public interface ICategoriesService
 {
     Task<IEnumerable<CategoryViewModel>> GetAllCategoriesAsync();
 
-    Task<CategoryViewModel> CreateNewCategory(CreateCategoryViewModel createCategory);
+    Task<CategoryViewModel> CreateNewCategoryAsync(CreateCategoryViewModel createCategory);
 
     Task<CategoryViewModel?> GetSingleCategoryByIdAsync(Guid id);
 
-    Task<ResponseData<CategoryViewModel>> UpdateCategory(EditCategoryViewModel editCategory);
+    Task<ResponseData<CategoryViewModel>> UpdateCategoryAsync(EditCategoryViewModel editCategory);
+
+    Task<ResponseData> DeleteCategoryByIdAsync(Guid id);
 }

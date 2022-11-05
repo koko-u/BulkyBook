@@ -24,7 +24,7 @@ public class CategoriesService : ICategoriesService
         return _mapper.Map<List<CategoryViewModel>>(categories);
     }
 
-    public async Task<CategoryViewModel> CreateNewCategory(CreateCategoryViewModel createCategory)
+    public async Task<CategoryViewModel> CreateNewCategoryAsync(CreateCategoryViewModel createCategory)
     {
         var category = _mapper.Map<Category>(createCategory);
         category.DisplayOrder = await GetNextOfLastDisplayOrderAsync();
@@ -46,7 +46,7 @@ public class CategoriesService : ICategoriesService
         return _mapper.Map<CategoryViewModel>(category);
     }
 
-    public async Task<ResponseData<CategoryViewModel>> UpdateCategory(
+    public async Task<ResponseData<CategoryViewModel>> UpdateCategoryAsync(
         EditCategoryViewModel editCategory)
     {
         var targetCategory = await _dbContext.Categories.FindAsync(editCategory.Id);
@@ -80,10 +80,25 @@ public class CategoriesService : ICategoriesService
         return ResponseData.Ok(_mapper.Map<CategoryViewModel>(targetCategory));
     }
 
+    public async Task<ResponseData> DeleteCategoryByIdAsync(Guid id)
+    {
+        var target = await _dbContext.Categories.FindAsync(id);
+        if (target == null)
+        {
+            return ResponseData.Error($"category with id {id} is not found.");
+        }
+
+        _dbContext.Categories.Remove(target);
+        await _dbContext.SaveChangesAsync();
+
+        return ResponseData.Ok();
+    }
+
+
     private async Task<HierarchyId> GetNextOfLastDisplayOrderAsync()
     {
         var lastCategory = await _dbContext.Categories.OrderByDescending(x => x.DisplayOrder)
-            .FirstOrDefaultAsync();
+                                           .FirstOrDefaultAsync();
         if (lastCategory == null)
         {
             return HierarchyId.GetRoot().GetDescendant(null, null);
@@ -127,16 +142,16 @@ public class CategoriesService : ICategoriesService
         // 移動対象となる category よりも『上に』ある category の一覧を並び順の降順に取得します
         var prevCategories =
             await _dbContext.Categories
-                .Where(cat => cat.DisplayOrder < target.DisplayOrder)
-                .OrderByDescending(cat => cat.DisplayOrder)
-                .ToListAsync();
+                            .Where(cat => cat.DisplayOrder < target.DisplayOrder)
+                            .OrderByDescending(cat => cat.DisplayOrder)
+                            .ToListAsync();
 
         if (upCount < prevCategories.Count)
         {
             var overCategory = prevCategories[upCount];
             var underCategory = prevCategories[upCount - 1];
             return HierarchyId.GetRoot()
-                .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
+                              .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
         }
         else
         {
@@ -178,16 +193,16 @@ public class CategoriesService : ICategoriesService
         //        .ToListAsync();
         var nextCategories =
             await _dbContext.Categories
-                .Where(cat => cat.DisplayOrder > target.DisplayOrder)
-                .OrderBy(cat => cat.DisplayOrder)
-                .ToListAsync();
+                            .Where(cat => cat.DisplayOrder > target.DisplayOrder)
+                            .OrderBy(cat => cat.DisplayOrder)
+                            .ToListAsync();
 
         if (downCount < nextCategories.Count)
         {
             var overCategory = nextCategories[downCount - 1];
             var underCategory = nextCategories[downCount];
             return HierarchyId.GetRoot()
-                .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
+                              .GetDescendant(overCategory.DisplayOrder, underCategory.DisplayOrder);
         }
         else
         {
