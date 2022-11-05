@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BulkyBook.BusinessCore.Services;
+using BulkyBook.Presentation;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,7 @@ namespace BulkyBook.Web.Controllers
             }
 
             var created = await _categoriesService.CreateNewCategoryAsync(createCategory);
+            TempData[TempDataKeys.SuccessMessage] = $"New Category [{created.Name}] has been successfully created.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -73,6 +75,8 @@ namespace BulkyBook.Web.Controllers
                 return View(editCategory);
             }
 
+            TempData[TempDataKeys.SuccessMessage] =
+                $"The Category [{response.Value.Name}] has been successfully updated.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -99,6 +103,9 @@ namespace BulkyBook.Web.Controllers
             }
 
             var response = await _categoriesService.DeleteCategoryByIdAsync(id);
+
+            TempData[TempDataKeys.SuccessMessage] =
+                $"The Category [{categoryViewModel.Name}] has been completely deleted.";
             return RedirectToAction(nameof(Index));
         }
     }
