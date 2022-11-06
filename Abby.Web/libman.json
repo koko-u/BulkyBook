@@ -1889,6 +1889,16 @@
         "icons/zoom-in.svg",
         "icons/zoom-out.svg"
       ]
+    },
+    {
+      "library": "tata-js@0.1.5",
+      "destination": "wwwroot/lib/tata-js/",
+      "files": [
+        "LICENSE",
+        "README.md",
+        "dist/tata.js",
+        "dist/tata.min.js"
+      ]
     }
   ]
 }

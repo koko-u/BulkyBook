@@ -1,5 +1,6 @@
 using AutoMapper;
 using BulkyBook.BusinessCore.Services;
+using BulkyBook.Presentation;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,6 +26,7 @@ namespace Abby.Web.Pages.Categories
             var category = await _categoriesService.GetSingleCategoryByIdAsync(id);
             if (category == null)
             {
+                TempData[TempDataKeys.FailureMessage] = $"The category with id[{id}] is not found.";
                 return RedirectToPage("Index");
             }
 
@@ -41,6 +43,16 @@ namespace Abby.Web.Pages.Categories
 
             var deleted =
                 await _categoriesService.DeleteCategoryByIdAsync(this.DeletionCategoryViewModel.Id);
+            if (deleted.IsSuccess)
+            {
+                TempData[TempDataKeys.SuccessMessage] =
+                    $"The category [{DeletionCategoryViewModel.Name}] has been deleted.";
+            }
+            else
+            {
+                TempData[TempDataKeys.FailureMessage] = deleted.ErrorMessages[0];
+            }
+
             return RedirectToPage("Index");
         }
     }

@@ -1,4 +1,5 @@
 using BulkyBook.BusinessCore.Services;
+using BulkyBook.Presentation;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,7 +30,7 @@ public class CreateModel : PageModel
         }
 
         var created = await _categoriesService.CreateNewCategoryAsync(CreateCategory);
-
+        TempData[TempDataKeys.SuccessMessage] = $"The category [{created.Name}] has been created.";
         return RedirectToPage("Index");
     }
 }
