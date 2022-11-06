@@ -1,11 +1,12 @@
 ﻿@using BulkyBook.Presentation
 @{
-    var notificationId = Guid.NewGuid();
+    var successId = Guid.NewGuid();
+    var failureId = Guid.NewGuid();
 }
 
 @if (TempData.TryGetValue(TempDataKeys.SuccessMessage, out var successMessage))
 {
-    <div id="@notificationId">
+    <div id="@successId">
         <div class="position-absolute top-0 end-0">
             <div class="toast m-2 bg-success successMessage" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-body text-white">
@@ -16,8 +17,33 @@
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
-                    const notificationDiv = document.getElementById('@notificationId');
+                    const notificationDiv = document.getElementById('@successId');
                     const toastEl = notificationDiv.querySelector('.successMessage');
+                    if (!toastEl) return;
+
+                    const toast = new bootstrap.Toast(toastEl, {});
+                    toast.show();
+                },
+                    500);
+            });
+        </script>
+    </div>
+}
+@if (TempData.TryGetValue(TempDataKeys.FailureMessage, out var errorMessage))
+{
+    <div id="@failureId">
+        <div class="position-absolute top-0 end-0">
+            <div class="toast m-2 bg-success errorMessage" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body text-white">
+                    <i class="bi bi-bell"></i> @errorMessage
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    const notificationDiv = document.getElementById('@failureId');
+                    const toastEl = notificationDiv.querySelector('.errorMessage');
                     if (!toastEl) return;
 
                     const toast = new bootstrap.Toast(toastEl, {});

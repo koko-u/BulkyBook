@@ -1,0 +1,35 @@
+﻿@using BulkyBook.Presentation.ViewModels
+@model CreateCoverTypeViewModel
+@{
+    ViewData["Title"] = "New Cover Type";
+}
+@section Scripts {
+    <script defer type="text/javascript">
+        $(document).ready(() => {
+            $('.input-validation-error').addClass('is-invalid');
+            $('.field-validation-error').addClass('is-invalid');
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<h1 class="mt-2 mb-4">
+    Create New Cover Type
+</h1>
+
+<form method="POST" asp-controller="CoverTypes" asp-action="Create">
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label" asp-for="Name">Cover Type Name</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" asp-for="Name" aria-describedby="nameFeedback">
+        <div id="nameFeedback" class="invalid-feedback">
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+</div>
+<div class="mb-3 d-flex flex-row">
+    <button type="submit" class="me-1 btn btn-primary">Create</button>
+    <a asp-controller="CoverTypes" asp-action="Index" class="ms-1 btn btn-outline-secondary">Cancel</a>
+</div>
+</form>

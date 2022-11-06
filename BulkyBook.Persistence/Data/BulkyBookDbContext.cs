@@ -11,4 +11,6 @@ public class BulkyBookDbContext : DbContext
     }
 
     public DbSet<Category> Categories => Set<Category>();
+
+    public DbSet<CoverType> CoverTypes => Set<CoverType>();
 }

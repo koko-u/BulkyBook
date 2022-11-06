@@ -16,14 +16,19 @@ builder.Services.AddDbContext<BulkyBookDbContext>(options =>
 {
     options.UseSqlServer(
         ConnectionStrings.Default
-      , options => options.UseHierarchyId());
+        , opt => opt.UseHierarchyId());
 });
 
 // Auto Mapper
-builder.Services.AddAutoMapper(options => { options.AddProfile<CategoryProfile>(); });
+builder.Services.AddAutoMapper(options =>
+{
+    options.AddProfile<CategoryProfile>();
+    options.AddProfile<CoverTypeProfile>();
+});
 
 // Services
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddScoped<ICoverTypesService, CoverTypesService>();
 
 // Middleware
 builder.Services.AddScoped<BulkyBookDbInitializer>();
