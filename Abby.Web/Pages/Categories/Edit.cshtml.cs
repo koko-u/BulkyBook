@@ -1,5 +1,6 @@
 using AutoMapper;
 using BulkyBook.BusinessCore.Services;
+using BulkyBook.Presentation;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,6 +26,7 @@ public class EditModel : PageModel
         var category = await _categoriesService.GetSingleCategoryByIdAsync(id);
         if (category == null)
         {
+            TempData[TempDataKeys.FailureMessage] = $"The category with id[{id}] is not found.";
             return RedirectToPage("Index");
         }
 
@@ -40,6 +42,15 @@ public class EditModel : PageModel
         }
 
         var updated = await _categoriesService.UpdateCategoryAsync(this.EditCategory);
+        if (updated.IsSuccess)
+        {
+            TempData[TempDataKeys.SuccessMessage] = $"The category [{updated.Value.Name}] has been updated.";
+        }
+        else
+        {
+            TempData[TempDataKeys.FailureMessage] = updated.ErrorMessages[0];
+        }
+
         return RedirectToPage("Index");
     }
 }
