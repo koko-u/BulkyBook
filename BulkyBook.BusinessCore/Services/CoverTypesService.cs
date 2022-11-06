@@ -25,7 +25,7 @@ public class CoverTypesService : ICoverTypesService
 
     public async Task<IEnumerable<CoverTypeViewModel>> GetAllCoverTypesAsync()
     {
-        var coverTypes = await _dbContext.CoverTypes.ToListAsync();
+        var coverTypes = await _dbContext.CoverTypes.OrderBy(x => x.Name).ToListAsync();
 
         return _mapper.Map<IEnumerable<CoverTypeViewModel>>(coverTypes);
     }

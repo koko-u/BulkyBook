@@ -10,7 +10,7 @@ public class CoverTypeProfile : Profile
     {
         CreateMap<CoverType, CoverTypeViewModel>();
         CreateMap<CreateCoverTypeViewModel, CoverType>();
-        CreateMap<CoverType, EditCoverTypeViewModel>()
-            .ReverseMap();
+        CreateMap<EditCoverTypeViewModel, CoverType>();
+        CreateMap<CoverTypeViewModel, EditCoverTypeViewModel>();
     }
 }
