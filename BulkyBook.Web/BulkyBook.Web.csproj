@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,10 @@
     <ProjectReference Include="..\BulkyBook.Middleware\BulkyBook.Middleware.csproj" />
     <ProjectReference Include="..\BulkyBook.Persistence\BulkyBook.Persistence.csproj" />
     <ProjectReference Include="..\BulkyBook.Presentation\BulkyBook.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Customer\Controllers\" />
   </ItemGroup>
 
 </Project>
