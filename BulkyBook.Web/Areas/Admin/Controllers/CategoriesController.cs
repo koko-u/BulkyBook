@@ -4,8 +4,9 @@ using BulkyBook.Presentation;
 using BulkyBook.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBook.Web.Controllers
+namespace BulkyBook.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoriesController : Controller
     {
         private readonly ICategoriesService _categoriesService;
