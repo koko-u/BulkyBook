@@ -1,0 +1,33 @@
+﻿@page "{id:guid}"
+@model Abby.Web.Pages.Categories.DeleteModel
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+
+<h1 class="mt-2 mb-4 text-danger">
+    Delete Category
+</h1>
+
+<form method="POST">
+    <input type="hidden" asp-for="DeletionCategoryViewModel.Id" />
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label" asp-for="DeletionCategoryViewModel.Name">Category Name</label>
+        <div class="col-sm-9">
+            <input type="text" readonly="readonly" class="form-control-plaintext" asp-for="DeletionCategoryViewModel.Name">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label" asp-for="DeletionCategoryViewModel.DisplayOrder">
+            Display Order
+        </label>
+        <div class="col-sm-9">
+            <input type="text" readonly="readonly" class="form-control-plaintext" asp-for="DeletionCategoryViewModel.DisplayOrder" />
+        </div>
+    </div>
+    <div class="mb-3 d-flex flex-row">
+        <button type="submit" class="me-1 btn btn-danger">Delete</button>
+        <a asp-page="Index" class="ms-1 btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>

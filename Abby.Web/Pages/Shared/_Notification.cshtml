@@ -1,0 +1,20 @@
+﻿@using BulkyBook.Presentation
+@{
+}
+
+@if (TempData.TryGetValue(TempDataKeys.SuccessMessage, out var successMessage))
+{
+    <script defer type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => tata.success('Success', '@successMessage', {}),500);
+        });
+    </script>
+}
+@if (TempData.TryGetValue(TempDataKeys.FailureMessage, out var errorMessage))
+{
+    <script defer type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => tata.error('Oops!', '@errorMessage', {}), 500);
+        });
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿@page "{id:guid}"
+@model Abby.Web.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+@section Scripts {
+    <script defer type="text/javascript">
+        $(document).ready(() => {
+            $('.input-validation-error').addClass('is-invalid');
+            $('.field-validation-error').addClass('is-invalid');
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+    <h1 class="mt-2 mb-4">
+        Edit Category
+    </h1>
+
+    <form method="POST">
+        <input type="hidden" asp-for="EditCategory.Id" />
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" asp-for="EditCategory.Name">Category Name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" asp-for="EditCategory.Name" aria-describedby="nameFeedback">
+                <div id="nameFeedback" class="invalid-feedback">
+                    <span asp-validation-for="EditCategory.Name"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label" asp-for="EditCategory.UpOrDownCount">
+                Change Display Order
+            </label>
+            <div class="col-sm-9">
+                <input type="number" class="form-control" asp-for="EditCategory.UpOrDownCount" aria-describedby="upOrDownFeedback" />
+                <div id="upOrDownFeedback" class="invalid-feedback">
+                    <span asp-validation-for="EditCategory.UpOrDownCount"></span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 d-flex flex-row">
+            <button type="submit" class="me-1 btn btn-primary">Update</button>
+            <a asp-page="Index" class="ms-1 btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
