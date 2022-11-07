@@ -1,3 +1,4 @@
+using AutoMapper;
 using BulkyBook.BusinessCore.MappingProfiles;
 using BulkyBook.BusinessCore.Services;
 using BulkyBook.Configuration;
@@ -22,13 +23,17 @@ builder.Services.AddDbContext<BulkyBookDbContext>(options =>
 // Auto Mapper
 builder.Services.AddAutoMapper(options =>
 {
-    options.AddProfile<CategoryProfile>();
-    options.AddProfile<CoverTypeProfile>();
+    options.AddProfiles(new Profile[]
+        {
+            new CategoryProfile(), new CoverTypeProfile(), new ProductProfile()
+        }
+    );
 });
 
 // Services
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<ICoverTypesService, CoverTypesService>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
 
 // Middleware
 builder.Services.AddScoped<BulkyBookDbInitializer>();
