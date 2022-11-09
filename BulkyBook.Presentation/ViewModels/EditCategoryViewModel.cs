@@ -9,7 +9,7 @@ public class EditCategoryViewModel : IValidatableObject
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = "The Category Name is Required.")]
-    [MaxLength(256, ErrorMessage = "Category name is allowed up to 256 chars.")]
+    [StringLength(256, ErrorMessage = "Category name is allowed up to 256 chars.")]
     [DisplayName("Category Name")]
     public string? Name { get; set; }
 
