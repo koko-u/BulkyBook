@@ -8,7 +8,7 @@ public class EditCoverTypeViewModel : IValidatableObject
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = "Cover Type Name must be specified")]
-    [MaxLength(256, ErrorMessage = "Cover Type Name is up to 256 characters")]
+    [StringLength(256, ErrorMessage = "Cover Type Name is up to 256 characters")]
     public string? Name { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

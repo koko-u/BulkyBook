@@ -11,7 +11,7 @@ public class Category
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    [StringLength(256)]
+    [MaxLength(256)]
     public string Name { get; set; } = string.Empty;
 
     public HierarchyId DisplayOrder { get; set; } = HierarchyId.GetRoot();

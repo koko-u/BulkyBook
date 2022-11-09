@@ -10,16 +10,16 @@ public class Product
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
 
-    [StringLength(256)]
+    [MaxLength(256)]
     public string Title { get; set; } = string.Empty;
 
-    [StringLength(4000)]
+    [MaxLength(4000)]
     public string? Description { get; set; }
 
     [Column(TypeName = "CHAR(20)")]
     public string Isbn { get; set; } = string.Empty;
 
-    [StringLength(512)]
+    [MaxLength(512)]
     public string Author { get; set; } = string.Empty;
 
     [Precision(10, 2)]
@@ -34,7 +34,7 @@ public class Product
     [Precision(10, 2)]
     public decimal BulkPriceFor100 { get; set; } = decimal.Zero;
 
-    [StringLength(2048)]
+    [MaxLength(2048)]
     public string? ImageUrl { get; set; }
 
     public Guid CategoryId { get; set; }
